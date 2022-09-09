@@ -13,15 +13,10 @@ type MVRes struct {
 }
 
 type MvInfo struct {
-	MvPlayCnt int        `json:"play_cnt"`
-	Name      string     `json:"name" yzh:"name"`
-	ID        int        `json:"id" yzh:"id"`
-	ImgURL    string     `json:"img_url" yzh:"img_url"`
-	Duration  Duration   `json:"duration" yzh:"duration"`
-	Artist    ArtistInfo `json:"artist" yzh:"artist"`
-}
-
-type Duration struct {
-	Duration    int    `json:"duration" yzh:"du_duration"`
-	TimeMinutes string `json:"time_minutes" yzh:"du_time"`
+	MvPlayCnt int                 `json:"play_cnt"`
+	Name      string              `json:"name" yzh:"name"`
+	ID        int                 `json:"id" yzh:"id"`
+	ImgURL    string              `json:"img_url" yzh:"img_url"`
+	Duration  standard.Duration   `json:"duration" yzh:"duration"`
+	Artist    standard.ArtistInfo `json:"artist" yzh:"artist"`
 }

@@ -2,7 +2,6 @@ package std_search
 
 import (
 	"github.com/Mistsink/kuwo-api/internal/core/standard"
-	std_music "github.com/Mistsink/kuwo-api/internal/core/standard/music"
 )
 
 type MusicResp struct {
@@ -11,6 +10,6 @@ type MusicResp struct {
 }
 
 type MusicRes struct {
-	TotalCnt int                 `json:"total_cnt" yzh:"total_cnt"`
-	List     []std_music.InfoRes `json:"list" yzh:"res_list"`
+	TotalCnt int                `json:"total_cnt" yzh:"total_cnt"`
+	List     []standard.InfoRes `json:"list" yzh:"res_list"`
 }

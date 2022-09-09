@@ -9,7 +9,7 @@ type AlbumResp struct {
 
 type AlbumRes struct {
 	Total     string      `json:"total" yzh:"total_cnt"`
-	AlbumList []AlbumItem `json:"albumList" yzh:"res_list"`
+	AlbumList []AlbumItem `json:"albumList" yzh:"list"`
 }
 
 type AlbumItem struct {

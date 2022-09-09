@@ -2,7 +2,6 @@ package std_artist
 
 import (
 	"github.com/Mistsink/kuwo-api/internal/core/standard"
-	std_search "github.com/Mistsink/kuwo-api/internal/core/standard/search"
 )
 
 type AlbumResp struct {
@@ -11,6 +10,6 @@ type AlbumResp struct {
 }
 
 type AlbumRes struct {
-	TotalCnt  int                    `json:"total_cnt" yzh:"total_cnt"`
-	AlbumList []std_search.AlbumItem `json:"list" yzh:"list"`
+	TotalCnt  int                  `json:"total_cnt" yzh:"total_cnt"`
+	AlbumList []standard.AlbumItem `json:"list" yzh:"list"`
 }

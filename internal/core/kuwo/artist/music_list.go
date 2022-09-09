@@ -2,7 +2,6 @@ package artist
 
 import (
 	"github.com/Mistsink/kuwo-api/internal/core/kuwo"
-	"github.com/Mistsink/kuwo-api/internal/core/kuwo/music"
 )
 
 type MusicListResp struct {
@@ -11,6 +10,6 @@ type MusicListResp struct {
 }
 
 type MusicListRes struct {
-	Total int                      `json:"total" yzh:"total_cnt"`
-	List  []music.InfoData[string] `json:"list" yzh:"list"`
+	Total int                     `json:"total" yzh:"total_cnt"`
+	List  []kuwo.InfoData[string] `json:"list" yzh:"list"`
 }

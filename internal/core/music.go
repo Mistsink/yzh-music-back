@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-///	get url by type
-///	type: [ music, mv ]
+// /	get url by type
+// /	type: [ music, mv ]
 func urlByType(c *gin.Context, param *service.MusicUrlReq, typeStr string) *std_music.UrlResp {
 	newUrl := "http://www.kuwo.cn/api/v1/www/music/playUrl"
 	newUrl = fmt.Sprintf("%s?mid=%d&type=%s&httpsStatus=1",
@@ -23,17 +23,17 @@ func urlByType(c *gin.Context, param *service.MusicUrlReq, typeStr string) *std_
 	return ret
 }
 
-///	get music url
+// /	get music url
 func MusicUrl(c *gin.Context, param *service.MusicUrlReq) *std_music.UrlResp {
 	return urlByType(c, param, "music")
 }
 
-///	get mv url
+// /	get mv url
 func MusicMVUrl(c *gin.Context, param *service.MusicUrlReq) *std_music.UrlResp {
 	return urlByType(c, param, "mv")
 }
 
-/// get music info
+// / get music info
 func MusicInfo(c *gin.Context, param *service.MusicUrlReq) *std_music.InfoResp {
 	newUrl := "http://www.kuwo.cn/api/www/music/musicInfo"
 	newUrl = fmt.Sprintf("%s?mid=%d&httpsStatus=1",
@@ -46,7 +46,7 @@ func MusicInfo(c *gin.Context, param *service.MusicUrlReq) *std_music.InfoResp {
 	return ret
 }
 
-/// get music lyric
+// / get music lyric
 func MusicLyric(c *gin.Context, param *service.MusicUrlReq) *std_music.LyricResp {
 
 	newUrl := "http://m.kuwo.cn/newh5/singles/songinfoandlrc"
