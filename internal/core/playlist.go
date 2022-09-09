@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PLDefault(c *gin.Context, param *service.PLDefaultReq) *std_pl.DefaultResp {
+func PLDefault(c *gin.Context, param *service.PLDefaultReq) (*std_pl.DefaultResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/classify/playlist/getRcmPlayList"
 	newUrl = fmt.Sprintf(
 		"%s?pn=%d&rn=%d&order=%s",
@@ -22,11 +22,11 @@ func PLDefault(c *gin.Context, param *service.PLDefaultReq) *std_pl.DefaultResp 
 	rawRet := &kuwo_pl.DefaultResp{}
 	ret := &std_pl.DefaultResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func PLRecommend(c *gin.Context, param *service.PLRecommendReq) *std_pl.RecResp {
+func PLRecommend(c *gin.Context, param *service.PLRecommendReq) (*std_pl.RecResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/rcm/index/playlist"
 	newUrl = fmt.Sprintf(
 		"%s?pn=%d&rn=%d&httpsStatus=1",
@@ -34,21 +34,21 @@ func PLRecommend(c *gin.Context, param *service.PLRecommendReq) *std_pl.RecResp 
 	rawRet := &kuwo_pl.RecResp{}
 	ret := &std_pl.RecResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func PLTags(c *gin.Context, _ any) *std_pl.TagResp {
+func PLTags(c *gin.Context, _ any) (*std_pl.TagResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/playlist/getTagList"
 
 	rawRet := &kuwo_pl.TagResp{}
 	ret := &std_pl.TagResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func PLWithTag(c *gin.Context, param *service.PLWithTagReq) *std_pl.WithTagResp {
+func PLWithTag(c *gin.Context, param *service.PLWithTagReq) (*std_pl.WithTagResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/classify/playlist/getTagPlayList"
 	newUrl = fmt.Sprintf(
 		"%s?pn=%d&rn=%d&id=%d",
@@ -56,11 +56,11 @@ func PLWithTag(c *gin.Context, param *service.PLWithTagReq) *std_pl.WithTagResp 
 	rawRet := &kuwo_pl.WithTagResp{}
 	ret := &std_pl.WithTagResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func PLDetail(c *gin.Context, param *service.PLDetailReq) *std_pl.DetailResp {
+func PLDetail(c *gin.Context, param *service.PLDetailReq) (*std_pl.DetailResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/playlist/playListInfo"
 
 	newUrl = fmt.Sprintf(
@@ -69,6 +69,6 @@ func PLDetail(c *gin.Context, param *service.PLDetailReq) *std_pl.DetailResp {
 	rawRet := &kuwo_pl.DetailResp{}
 	ret := &std_pl.DetailResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }

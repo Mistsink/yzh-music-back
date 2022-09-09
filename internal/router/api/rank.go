@@ -18,13 +18,17 @@ func NewRank() *Rank {
 func (r *Rank) Rank(c *gin.Context) {
 	response := app.NewResponse(c)
 
-	standardRes := core.RankPlaylist(c, nil)
+	res, err := core.RankPlaylist(c, nil)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -34,13 +38,17 @@ func (r *Rank) Detail(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.RankPlDetail(c, param)
+	res, err := core.RankPlDetail(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }

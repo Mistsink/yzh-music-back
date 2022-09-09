@@ -28,13 +28,17 @@ func (p *Playlist) Default(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.PLDefault(c, param)
+	res, err := core.PLDefault(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -44,13 +48,17 @@ func (p *Playlist) Recommend(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.PLRecommend(c, param)
+	res, err := core.PLRecommend(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -58,13 +66,17 @@ func (p *Playlist) Recommend(c *gin.Context) {
 func (p *Playlist) GetTags(c *gin.Context) {
 	response := app.NewResponse(c)
 
-	standardRes := core.PLTags(c, nil)
+	res, err := core.PLTags(c, nil)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -74,13 +86,17 @@ func (p *Playlist) WithTag(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.PLWithTag(c, param)
+	res, err := core.PLWithTag(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -90,13 +106,17 @@ func (p *Playlist) GetDetail(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.PLDetail(c, param)
+	res, err := core.PLDetail(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }

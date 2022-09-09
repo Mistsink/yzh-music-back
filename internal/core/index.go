@@ -5,17 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 
 	"github.com/Mistsink/kuwo-api/global"
-	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/decoder"
-	"github.com/Mistsink/kuwo-api/pkg/errcode"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -56,32 +54,27 @@ func setup() {
 	client = &http.Client{}
 }
 
-func GetRaw(c *gin.Context) *http.Response {
+func getRaw(c *gin.Context) (*http.Response, error) {
 	if !flag {
 		setup()
 	}
 
-	response := app.NewResponse(c)
-
 	req, err := http.NewRequest("GET", createUrl(c.Request.URL).String(), nil)
 	if err != nil {
-		response.ToErrResponse(
-			errcode.ServerWithMsg(fmt.Sprintf("http.NewRequest err: %v", err)))
+		err = errors.Wrap(err, fmt.Sprintf("http.NewRequest err: %v", err))
 		global.Logger.Error(c, "http.NewRequest err:", err)
-		panic(fmt.Sprintf("http.NewRequest err: %v", err))
+		return nil, err
 	}
-	injectReqHeader(req, c)
 
-	// fmt.Printf("==========\nrequire: %v", req)
+	injectReqHeader(req, c)
 
 	res, err := client.Do(req)
 	if err != nil {
-		response.ToErrResponse(
-			errcode.ServerWithMsg(fmt.Sprintf("client.Get err: %v", err)))
+		err = errors.Wrap(err, fmt.Sprintf("client.Get err: %v", err))
 		global.Logger.Error(c, "client.Get err:", err)
-		panic(fmt.Sprintf("client.Get err: %v", err))
+		return nil, err
 	}
-	return res
+	return res, nil
 }
 
 func SaveTmpFile(c *gin.Context, resp *http.Response, fileName string) io.Reader {
@@ -118,9 +111,7 @@ func injectReqHeader(req *http.Request, c *gin.Context) {
 func createUrl(originUrl *url.URL) *url.URL {
 	query := originUrl.Query()
 	injectQuery(query, uuid.NewV4().String())
-	fmt.Println("query:", originUrl.RawQuery)
 	u, _ := url.Parse(originUrl.Scheme + "://" + originUrl.Host + originUrl.Path + "?" + query.Encode())
-	fmt.Println("------------\nu:", u)
 	return u
 }
 
@@ -129,41 +120,34 @@ func injectQuery(queries url.Values, reqId string) {
 	queries.Set("reqId", reqId)
 }
 
-func RewriteUrl(c *gin.Context, u *url.URL) {
+func rewriteUrl(c *gin.Context, u *url.URL) {
 	c.Request.Host = u.Host
 	c.Request.URL = u
 }
 
-func parseUrl(_url string, c *gin.Context) *url.URL {
-	u, err := url.Parse(_url)
+func parseUrl(_url string, c *gin.Context) (u *url.URL, err error) {
+	u, err = url.Parse(_url)
 	if err != nil {
-		app.NewResponse(c).ToErrResponse(errcode.ServerWithMsg(fmt.Sprintf("url.Parse err: %v", err)))
-		log.Println("url.Parse err:", err)
-		panic(fmt.Sprintf("c.ShouldBind(param) err: %v", err))
+		err = errors.Wrap(err, fmt.Sprintf("url.Parse err: %v", err))
+		global.Logger.Error(c, "url.Parse err:", err)
 	}
-
-	fmt.Printf("converted url: %v\n", u)
-
-	return u
+	return
 }
 
-func unmarshal(c *gin.Context, raw *http.Response, v any) {
-	response := app.NewResponse(c)
+func unmarshal(c *gin.Context, raw *http.Response, v any) error {
 	contentEncoding := raw.Header.Get("Content-Encoding")
-	// if contentEncoding == "" {
-	// 	contentEncoding = "gzip"
-	// }
 	reader, err := decoder.NewDecoder(contentEncoding, raw.Body)
 	if err != nil {
-		response.ToErrResponse(
-			errcode.ServerWithMsg(fmt.Sprintf("decoder.NewDecoder err: %v", err)))
+		err = errors.Wrap(err, fmt.Sprintf("decoder.NewDecoder err: %v", err))
 		global.Logger.Error(c, "decoder.NewDecoder err:", err)
-		panic(fmt.Sprintf("decoder.NewDecoder err: %v", err))
+		return err
 	}
 
 	if err = json.NewDecoder(reader).Decode(v); err != nil {
+		err = errors.Wrap(err, fmt.Sprintf("raw.Decode(json.NewDecoder(reader)) err: %v", err))
 		global.Logger.Errorf(c, "raw.Decode(json.NewDecoder(reader)) err: %v", err)
-		response.ToErrResponse(errcode.ServerWithMsg(fmt.Sprintf("raw.Decode(json.NewDecoder(reader)) err: %v", err)))
-		panic(fmt.Sprintf("raw.Decode(json.NewDecoder(reader)) err: %v", err))
+		return err
 	}
+
+	return nil
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RankPlaylist(c *gin.Context, _ any) *std_rank.PlaylistResp {
+func RankPlaylist(c *gin.Context, _ any) (*std_rank.PlaylistResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/bang/bang/bangMenu"
 	newUrl = fmt.Sprintf(
 		"%s?httpsStatus=1",
@@ -18,11 +18,11 @@ func RankPlaylist(c *gin.Context, _ any) *std_rank.PlaylistResp {
 	rawRet := &kuwo_rank.PlaylistResp{}
 	ret := &std_rank.PlaylistResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func RankPlDetail(c *gin.Context, param *service.RankDetailReq) *std_rank.PlDetailResp {
+func RankPlDetail(c *gin.Context, param *service.RankDetailReq) (*std_rank.PlDetailResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/bang/bang/musicList"
 	newUrl = fmt.Sprintf(
 		"%s?bangId=%d&pn=%d&rn=%d&httpsStatus=1",
@@ -31,6 +31,6 @@ func RankPlDetail(c *gin.Context, param *service.RankDetailReq) *std_rank.PlDeta
 	rawRet := &kuwo_rank.PlDetailResp{}
 	ret := &std_rank.PlDetailResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }

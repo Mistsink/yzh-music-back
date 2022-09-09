@@ -20,13 +20,17 @@ func (m *Music) Url(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.MusicUrl(c, param)
+	res, err := core.MusicUrl(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -36,42 +40,37 @@ func (m *Music) MV(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.MusicUrl(c, param)
+	res, err := core.MusicUrl(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
-
-// func (m *Music) Comment(c *gin.Context) {
-// 	param := &service.MusicCommentReq{Id: convert.StrTo(c.Param("id")).MustUInt()}
-// 	response := app.NewResponse(c)
-// 	execBindAndValid(c, response, param)
-
-// 	_u := "http://www.kuwo.cn/comment"
-// 	_u = fmt.Sprintf("%s?type=%s&f=web&page=%d&rows=%d&digest=%d&sid=%d&prod=newWeb&uid=%d",
-// 		_u, param.Type, param.P, param.N, param.Digest, param.Id, 0)
-// 	u := parseUrl(_u, response)
-
-// 	RewriteUrl(c, u)
-// }
 
 func (m *Music) Lyric(c *gin.Context) {
 	param := &service.MusicUrlReq{Id: convert.StrTo(c.Param("id")).MustUInt()}
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.MusicLyric(c, param)
+	res, err := core.MusicLyric(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -81,13 +80,17 @@ func (m *Music) Info(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.MusicInfo(c, param)
+	res, err := core.MusicInfo(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }

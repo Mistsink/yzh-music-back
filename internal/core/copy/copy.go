@@ -55,9 +55,9 @@ func _copyByTag(dst reflect.Value, src reflect.Value, tag string) {
 		case kindSimple:
 			setSimpleKindValue(field.field, fieldSrc.field)
 		case kindStruct:
-			fmt.Println("tag:", fieldTag, "kind: kindstruct")
+			// fmt.Println("tag:", fieldTag, "kind: kindstruct")
 		case kindPointer:
-			fmt.Println("tag:", fieldTag, "kind: kindpointer")
+			// fmt.Println("tag:", fieldTag, "kind: kindpointer")
 		case kindArray:
 			fallthrough
 		case kindSlice:

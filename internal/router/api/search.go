@@ -19,13 +19,17 @@ func (s Search) Music(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearMusic(c, param)
+	res, err := core.SearMusic(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -35,13 +39,17 @@ func (s Search) Hint(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearHint(c, param)
+	res, err := core.SearHint(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -51,13 +59,17 @@ func (s Search) Album(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearAlbum(c, param)
+	res, err := core.SearAlbum(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 
@@ -68,13 +80,17 @@ func (s Search) MV(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearMV(c, param)
+	res, err := core.SearMV(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 
@@ -85,13 +101,17 @@ func (s Search) Artist(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearArtist(c, param)
+	res, err := core.SearArtist(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -101,13 +121,17 @@ func (s Search) Playlist(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.SearPlaylist(c, param)
+	res, err := core.SearPlaylist(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }

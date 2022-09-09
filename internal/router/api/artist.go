@@ -20,13 +20,17 @@ func (a *Artist) Music(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.ArtMusicList(c, param)
+	res, err := core.ArtMusicList(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }
@@ -36,13 +40,17 @@ func (a *Artist) Album(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	standardRes := core.ArtAlbum(c, param)
+	res, err := core.ArtAlbum(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
 
 	resJson := app.RespJSON{
-		Code:   errcode.Success.Code,
-		Result: standardRes.Result,
-		Msg:    standardRes.Msg,
-		ReqID:  standardRes.ReqID,
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
 	}
 	response.ToResponse(&resJson)
 }

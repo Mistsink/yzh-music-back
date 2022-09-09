@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SearMusic(c *gin.Context, param *service.SearComReq) *std_search.MusicResp {
+func SearMusic(c *gin.Context, param *service.SearComReq) (*std_search.MusicResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/search/searchMusicBykeyWord"
 	newUrl = fmt.Sprintf(
 		"%s?pn=%d&rn=%d&key=%s&httpsStatus=1",
@@ -18,11 +18,11 @@ func SearMusic(c *gin.Context, param *service.SearComReq) *std_search.MusicResp 
 	rawRet := &kuwo_search.MusicResp{}
 	ret := &std_search.MusicResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func SearHint(c *gin.Context, param *service.SearHintReq) *std_search.HintResp {
+func SearHint(c *gin.Context, param *service.SearHintReq) (*std_search.HintResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/search/searchKey"
 	newUrl = fmt.Sprintf(
 		"%s?key=%s&httpsStatus=1",
@@ -31,11 +31,11 @@ func SearHint(c *gin.Context, param *service.SearHintReq) *std_search.HintResp {
 	rawRet := &kuwo_search.HintResp{}
 	ret := &std_search.HintResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func SearAlbum(c *gin.Context, param *service.SearComReq) *std_search.AlbumResp {
+func SearAlbum(c *gin.Context, param *service.SearComReq) (*std_search.AlbumResp, error) {
 
 	newUrl := "http://www.kuwo.cn/api/www/search/searchAlbumBykeyWord"
 	newUrl = fmt.Sprintf(
@@ -45,11 +45,11 @@ func SearAlbum(c *gin.Context, param *service.SearComReq) *std_search.AlbumResp 
 	rawRet := &kuwo_search.AlbumResp{}
 	ret := &std_search.AlbumResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func SearMV(c *gin.Context, param *service.SearComReq) *std_search.MVResp {
+func SearMV(c *gin.Context, param *service.SearComReq) (*std_search.MVResp, error) {
 
 	newUrl := "http://www.kuwo.cn/api/www/search/searchMvBykeyWord"
 	newUrl = fmt.Sprintf(
@@ -59,11 +59,11 @@ func SearMV(c *gin.Context, param *service.SearComReq) *std_search.MVResp {
 	rawRet := &kuwo_search.MVResp{}
 	ret := &std_search.MVResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func SearArtist(c *gin.Context, param *service.SearComReq) *std_search.ArtistResp {
+func SearArtist(c *gin.Context, param *service.SearComReq) (*std_search.ArtistResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/search/searchArtistBykeyWord"
 	newUrl = fmt.Sprintf(
 		"%s?key=%s&pn=%d&rn=%d",
@@ -72,11 +72,11 @@ func SearArtist(c *gin.Context, param *service.SearComReq) *std_search.ArtistRes
 	rawRet := &kuwo_search.ArtistResp{}
 	ret := &std_search.ArtistResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
 
-func SearPlaylist(c *gin.Context, param *service.SearComReq) *std_search.PlaylistResp {
+func SearPlaylist(c *gin.Context, param *service.SearComReq) (*std_search.PlaylistResp, error) {
 	newUrl := "http://www.kuwo.cn/api/www/search/searchPlayListBykeyWord"
 	newUrl = fmt.Sprintf(
 		"%s?key=%s&pn=%d&rn=%d",
@@ -85,6 +85,6 @@ func SearPlaylist(c *gin.Context, param *service.SearComReq) *std_search.Playlis
 	rawRet := &kuwo_search.PlaylistResp{}
 	ret := &std_search.PlaylistResp{}
 
-	getRespByNewUrl(c, newUrl, rawRet, ret)
-	return ret
+	err := getRespByNewUrl(c, newUrl, rawRet, ret)
+	return ret, err
 }
