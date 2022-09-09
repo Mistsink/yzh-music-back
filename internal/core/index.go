@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -87,7 +86,7 @@ func GetRaw(c *gin.Context) *http.Response {
 
 func SaveTmpFile(c *gin.Context, resp *http.Response, fileName string) io.Reader {
 	reader, _ := decoder.NewDecoder(resp.Header.Get("Content-Encoding"), resp.Body)
-	p, _ := ioutil.ReadAll(reader)
+	p, _ := io.ReadAll(reader)
 	file, err := os.OpenFile("storage/tmp/"+
 		fileName+".json", os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -115,21 +114,6 @@ func injectReqHeader(req *http.Request, c *gin.Context) {
 	req.Header.Add("Accept-Encoding", Req.contentEncoding)
 
 }
-
-// ///	FIXME
-// func injectResHeader(c *gin.Context, res *http.Response) {
-// 	for k, v := range res.Header {
-// 		c.Writer.Header().Set(k, v[0])
-
-// 		lenV := len(v)
-// 		if lenV > 1 {
-// 			for i := 1; i < lenV; i++ {
-// 				c.Writer.Header().Add(k, v[i])
-// 			}
-// 		}
-// 	}
-// 	c.Writer.Header().Set("Content-type", "application/json; charset=utf-8")
-// }
 
 func createUrl(originUrl *url.URL) *url.URL {
 	query := originUrl.Query()
