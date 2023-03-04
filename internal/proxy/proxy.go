@@ -1,9 +1,9 @@
 package proxy
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/model"
 	"net/url"
 
+	"github.com/Mistsink/kuwo-api/internal/model"
 	"github.com/Mistsink/kuwo-api/internal/proxy/copy"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"

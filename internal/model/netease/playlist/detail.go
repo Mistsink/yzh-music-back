@@ -20,7 +20,11 @@ func (r *DetailResp) Format() (any, error) {
 	}
 
 	for i, rawSong := range r.Songs {
-		ret.Result.MusicList[i] = *rawSong.Format()
+		if songs, e := rawSong.Format(); e != nil {
+			return nil, e
+		} else {
+			ret.Result.MusicList[i] = *(songs.(*netease.SongFormatted))
+		}
 	}
 	return ret, nil
 }

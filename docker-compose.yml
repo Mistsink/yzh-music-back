@@ -1,0 +1,15 @@
+version: '0.1.0'
+
+services:
+  yzh_music_api:
+    image: mistsink/yzh_music_api
+    container_name: yzh_music_api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage:/storage
+    
+  netease_music_api:
+    image: binaryify/netease_cloud_music_api
+    container_name: netease_music_api
+

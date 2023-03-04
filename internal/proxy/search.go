@@ -2,12 +2,13 @@ package proxy
 
 import (
 	"fmt"
+	"sync"
+
 	"github.com/Mistsink/kuwo-api/global"
 	kuwo "github.com/Mistsink/kuwo-api/internal/model/kuwo/search"
 	netease "github.com/Mistsink/kuwo-api/internal/model/netease/search"
 	std "github.com/Mistsink/kuwo-api/internal/model/standard/search"
 	"github.com/pkg/errors"
-	"sync"
 
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/gin-gonic/gin"
@@ -21,7 +22,7 @@ func SearMusic(c *gin.Context, param *service.SearComReq) (*std.MusicResp, error
 		ret = &std.MusicResp{}
 
 		wg    = &sync.WaitGroup{}
-		retCh = make(chan *std.MusicResp)
+		retCh = make(chan *std.MusicResp, len(global.ProxySetting.AvailableTags))
 	)
 
 	for _, _tag := range global.ProxySetting.AvailableTags {
@@ -47,11 +48,12 @@ func SearMusic(c *gin.Context, param *service.SearComReq) (*std.MusicResp, error
 			e := sendAndFormat(opt, raw, _ret)
 			if e != nil {
 				err = errors.Wrap(err, e.Error())
+				fmt.Println("err:", e.Error())
 				return
 			}
 
 			for i := range _ret.Result.List {
-				_ret.Result.List[i].Tag = _tag
+				_ret.Result.List[i].Tag = string(opt.tag)
 			}
 
 			retCh <- _ret
@@ -60,6 +62,16 @@ func SearMusic(c *gin.Context, param *service.SearComReq) (*std.MusicResp, error
 			rawUrl: url,
 		}, raw)
 	}
+
+	wg.Wait()
+	close(retCh)
+	for _ret := range retCh {
+		ret.Result.TotalCnt += _ret.Result.TotalCnt
+		ret.Result.List = append(ret.Result.List, _ret.Result.List...)
+		// fmt.Println("_ret:", _ret)
+	}
+
+	// fmt.Println("ret:", ret)
 
 	return ret, err
 }

@@ -14,8 +14,9 @@ type InfoRespFormatted struct {
 }
 
 func (r *InfoResp) Format() (any, error) {
+	songsFormatted, err := r.Songs[0].Format()
 	return &InfoRespFormatted{
 		r.CommonResp,
-		r.Songs[0].Format(),
-	}, nil
+		songsFormatted.(*netease.SongFormatted),
+	}, err
 }

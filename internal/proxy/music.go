@@ -2,10 +2,10 @@ package proxy
 
 import (
 	"fmt"
+
 	kuwo "github.com/Mistsink/kuwo-api/internal/model/kuwo/music"
 	netease "github.com/Mistsink/kuwo-api/internal/model/netease/music"
 	std "github.com/Mistsink/kuwo-api/internal/model/standard/music"
-
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/gin-gonic/gin"
 )

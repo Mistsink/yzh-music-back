@@ -22,12 +22,12 @@ type SongFormatted struct {
 	PublishTime int           `json:"publishTime" yzh:"release_date"`
 }
 
-func (s *Song) Format() *SongFormatted {
+func (s *Song) Format() (any, error) {
 	ret := &SongFormatted{}
 
 	_ = copy.CopyByTag(ret, s, "yzh")
 	ret.Ar = s.Ar[0]
-	return ret
+	return ret, nil
 }
 
 type Song struct {

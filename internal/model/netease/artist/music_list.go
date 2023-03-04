@@ -22,7 +22,11 @@ func (r *MusicListResp) Format() (any, error) {
 
 	ret.Result.List = make([]netease.SongFormatted, len(r.Songs), len(r.Songs))
 	for i, rawSong := range r.Songs {
-		ret.Result.List[i] = *rawSong.Format()
+		if songFormatted, err := rawSong.Format(); err != nil {
+			return nil, err
+		} else {
+			ret.Result.List[i] = *(songFormatted.(*netease.SongFormatted))
+		}
 	}
 
 	return ret, nil

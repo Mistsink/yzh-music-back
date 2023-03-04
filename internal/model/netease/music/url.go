@@ -9,6 +9,13 @@ type UrlResp struct {
 	Data []Datum `json:"data"`
 }
 
+func (res *UrlResp) Format() (any, error) {
+	return &UrlRespFormatted{
+		res.CommonResp,
+		res.Data[0],
+	}, nil
+}
+
 type Datum struct {
 	URL        string `json:"url" yzh:"url"`
 	ID         int    `json:"id"`
@@ -21,13 +28,6 @@ type Datum struct {
 	Level      string `json:"level"`
 	EncodeType string `json:"encodeType"`
 	Time       int    `json:"time"`
-}
-
-func (res *UrlResp) Format() any {
-	return &UrlRespFormatted{
-		res.CommonResp,
-		res.Data[0],
-	}
 }
 
 type UrlRespFormatted struct {
