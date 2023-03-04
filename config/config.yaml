@@ -15,8 +15,8 @@ Proxy:
       UserAgent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36
     -
       Name: netease
-      # ProxyAddr: http://netease_music_api:3000
-      ProxyAddr: http://127.0.0.1:3000
+      ProxyAddr: http://netease_music_api:3000
+      # ProxyAddr: http://127.0.0.1:3000
 
 
 Server:
