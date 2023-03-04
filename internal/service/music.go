@@ -2,7 +2,8 @@ package service
 
 type MusicUrlReq struct {
 	PlatformTagReq
-	Id uint `form:"id" binding:"required,gte=1"`
+	Id uint   `form:"id" binding:"required,gte=1"`
+	Br string `form:"br,default=128kmp3" binding:"omitempty,oneof=128kmp3 192kmp3 320kmp3"`
 }
 
 type MusicCommentReq struct {

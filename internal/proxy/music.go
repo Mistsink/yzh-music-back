@@ -11,11 +11,15 @@ import (
 )
 
 // /	get url by type
-// /	type: [ music, mv ]
+// /	type: [ convert_url3, mv ]
 func urlByTypeKuwo(c *gin.Context, param *service.MusicUrlReq, typeStr string) string {
 	newUrl := "http://www.kuwo.cn/api/v1/www/music/playUrl"
 	newUrl = fmt.Sprintf("%s?mid=%d&type=%s&httpsStatus=1",
 		newUrl, param.Id, typeStr)
+
+	if typeStr == "convert_url3" {
+		newUrl += "&br=" + param.Br
+	}
 	return newUrl
 }
 
@@ -33,7 +37,7 @@ func MusicUrl(c *gin.Context, param *service.MusicUrlReq) (*std.UrlResp, error) 
 	// parse url & raw response with tag
 	switch tag {
 	case Tkuwo:
-		url = urlByTypeKuwo(c, param, "music")
+		url = urlByTypeKuwo(c, param, "convert_url3")
 		rawRet = &kuwo.UrlResp{}
 	case Tnetease:
 		url = fmt.Sprintf("/song/url/v1?id=%d&level=exhigh", param.Id)
