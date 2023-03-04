@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/middlerware"
-
+	"github.com/Mistsink/kuwo-api/doc"
 	"github.com/Mistsink/kuwo-api/global"
+	"github.com/Mistsink/kuwo-api/internal/middlerware"
 	"github.com/Mistsink/kuwo-api/internal/router/api"
 	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/errcode"
@@ -43,6 +43,7 @@ func NewRouter() *gin.Engine {
 		playlist.GET("/", playlistHandler.Default) //	default playlist
 		playlist.GET("/rec", playlistHandler.Recommend)
 		playlist.GET("/:id", playlistHandler.GetDetail)
+		playlist.GET("/tag", playlistHandler.WithTag)     //	get playlist in the tag
 		playlist.GET("/tag/:id", playlistHandler.WithTag) //	get playlist in the tag
 		playlist.GET("/tags", playlistHandler.GetTags)    //	get tags
 	}
@@ -96,6 +97,22 @@ func NewRouter() *gin.Engine {
 		response := app.NewResponse(c)
 		response.ToErrResponse(errcode.NotFound)
 	})
+
+	// api
+	{
+		docFunc := func(ctx *gin.Context) {
+			ctx.Data(200, "html", doc.DocHTML)
+		}
+		r.GET("/", docFunc)
+		r.GET("/api", docFunc)
+		r.GET("/doc", docFunc)
+		r.GET("/document", docFunc)
+	}
+
+	// docStaticFile := "./doc/doc.html"
+	// r.StaticFile("/", docStaticFile)
+	// r.StaticFile("/doc", docStaticFile)
+	// r.StaticFile("/document", docStaticFile)
 
 	return r
 }

@@ -19,6 +19,8 @@ func execBindAndValid(c *gin.Context, response *app.Response, param interface{})
 
 func transCode(rawCode int) (ret int) {
 	switch rawCode {
+	case 0:
+		fallthrough
 	case 200:
 		ret = errcode.Success.Code
 	default:

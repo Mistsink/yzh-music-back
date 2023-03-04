@@ -1,20 +1,33 @@
 package setting
 
-import "github.com/spf13/viper"
+import (
+	"io"
+
+	"github.com/spf13/viper"
+)
 
 type Setting struct {
 	vp *viper.Viper
 }
 
-func NewSetting(configPath ...string) (*Setting, error) {
+func NewSetting(configIn any) (*Setting, error) {
+	var err error
+
 	vp := viper.New()
+
 	vp.SetConfigType("yaml")
 	vp.SetConfigName("config")
-	if configPath == nil {
+
+	switch configIn := configIn.(type) {
+	case string:
+		vp.AddConfigPath(configIn)
+		err = vp.ReadInConfig()
+	case nil:
 		vp.AddConfigPath("config/")
-	} else {
-		vp.AddConfigPath(configPath[0])
+		err = vp.ReadInConfig()
+	case io.Reader:
+		err = vp.ReadConfig(configIn)
 	}
-	err := vp.ReadInConfig()
+
 	return &Setting{vp}, err
 }

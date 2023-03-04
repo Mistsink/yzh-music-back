@@ -1,0 +1,7 @@
+.vscode/
+.git/
+storage/
+test/
+tmp/
+DS_Store
+Dockerfile

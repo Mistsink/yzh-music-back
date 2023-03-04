@@ -7,9 +7,13 @@ import (
 
 	"github.com/Mistsink/kuwo-api/global"
 	"github.com/Mistsink/kuwo-api/internal/router"
-	_ "github.com/Mistsink/kuwo-api/setup"
+	"github.com/Mistsink/kuwo-api/setup"
 	"github.com/gin-gonic/gin"
 )
+
+func init() {
+	setup.Init()
+}
 
 func main() {
 

@@ -1,8 +1,17 @@
-FROM scratch
+FROM golang:1.19.3-alpine as builder
 
+WORKDIR /work
 ENV GOPROXY https://goproxy.cn,direct
-WORKDIR $GOPATH/src/github.com/Mistsink/kuwo-api
-COPY . $GOPATH/src/github.com/Mistsink/kuwo-api
+
+COPY . .
+RUN go mod tidy
+RUN go build -o=yzh_music_api .
+
+
+FROM alpine as test_app
+# FROM scratch as app
+
+COPY --from=builder /work/yzh_music_api .
 
 EXPOSE 8080
-ENTRYPOINT ["./kuwo-api"]
+ENTRYPOINT ["./yzh_music_api"]

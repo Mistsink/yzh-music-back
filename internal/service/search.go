@@ -10,7 +10,7 @@ type SearHintReq struct {
 	Key string `form:"key" binding:"required"`
 }
 
-type RespSearMusic struct {
-	TotalCnt  int              `json:"total_cnt,int,omitempty"`
-	MusicList []*RespMusicInfo `json:"music_list"`
-}
+// type RespSearMusic struct {
+// 	TotalCnt  int              `json:"total_cnt,int,omitempty"`
+// 	MusicList []*RespMusicInfo `json:"music_list"`
+// }

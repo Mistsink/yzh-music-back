@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/core"
+	"github.com/Mistsink/kuwo-api/internal/proxy"
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/convert"
@@ -28,7 +28,7 @@ func (p *Playlist) Default(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.PLDefault(c, param)
+	res, err := proxy.PLDefault(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -48,7 +48,7 @@ func (p *Playlist) Recommend(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.PLRecommend(c, param)
+	res, err := proxy.PLRecommend(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -66,7 +66,7 @@ func (p *Playlist) Recommend(c *gin.Context) {
 func (p *Playlist) GetTags(c *gin.Context) {
 	response := app.NewResponse(c)
 
-	res, err := core.PLTags(c, nil)
+	res, err := proxy.PLTags(c, nil)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -82,11 +82,11 @@ func (p *Playlist) GetTags(c *gin.Context) {
 }
 
 func (p *Playlist) WithTag(c *gin.Context) {
-	param := &service.PLWithTagReq{Id: convert.StrTo(c.Param("id")).MustUInt()}
+	param := &service.PLWithTagReq{Id: c.Param("id")}
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.PLWithTag(c, param)
+	res, err := proxy.PLWithTag(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -106,7 +106,7 @@ func (p *Playlist) GetDetail(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.PLDetail(c, param)
+	res, err := proxy.PLDetail(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return

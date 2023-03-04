@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/core"
+	"github.com/Mistsink/kuwo-api/internal/proxy"
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/errcode"
@@ -19,7 +19,7 @@ func (s Search) Music(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearMusic(c, param)
+	res, err := proxy.SearMusic(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -39,7 +39,7 @@ func (s Search) Hint(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearHint(c, param)
+	res, err := proxy.SearHint(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -59,7 +59,7 @@ func (s Search) Album(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearAlbum(c, param)
+	res, err := proxy.SearAlbum(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -80,7 +80,7 @@ func (s Search) MV(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearMV(c, param)
+	res, err := proxy.SearMV(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -101,7 +101,7 @@ func (s Search) Artist(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearArtist(c, param)
+	res, err := proxy.SearArtist(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -121,7 +121,7 @@ func (s Search) Playlist(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.SearPlaylist(c, param)
+	res, err := proxy.SearPlaylist(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return

@@ -1,18 +1,20 @@
 package setup
 
 import (
-	"github.com/Mistsink/kuwo-api/global"
-	"github.com/Mistsink/kuwo-api/pkg/logger"
-	"github.com/Mistsink/kuwo-api/pkg/setting"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/Mistsink/kuwo-api/config"
+	"github.com/Mistsink/kuwo-api/global"
+	"github.com/Mistsink/kuwo-api/internal/proxy"
+	"github.com/Mistsink/kuwo-api/pkg/logger"
+	"github.com/Mistsink/kuwo-api/pkg/setting"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-func init() {
-	os.Chdir(getDir())
+func Init() {
 	err := setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting() err %v", err)
@@ -21,6 +23,8 @@ func init() {
 	if err != nil {
 		log.Fatalf("init.setupLogger() err %v", err)
 	}
+
+	proxy.InitProxyService()
 }
 
 func setupSetting() error {
@@ -28,7 +32,15 @@ func setupSetting() error {
 		settings *setting.Setting
 		err      error
 	)
-	settings, err = setting.NewSetting("config/")
+
+	configIn, err := config.FS.Open("config.yaml")
+	defer func() { _ = configIn.Close() }()
+
+	if err != nil {
+		return err
+	}
+
+	settings, err = setting.NewSetting(configIn)
 	if err != nil {
 		return err
 	}
@@ -37,6 +49,15 @@ func setupSetting() error {
 		return err
 	}
 	global.AppSetting.DefaultContextTimeout *= time.Second
+
+	if err = settings.ReadSection("Proxy", &global.ProxySetting); err != nil {
+		return err
+	}
+	global.ProxySetting.AvailableTags = make([]string, len(global.ProxySetting.ProxyItems))
+	for i, proxyS := range global.ProxySetting.ProxyItems {
+		global.ProxySetting.ProxyItems[i].Name = strings.ToLower(proxyS.Name)
+		global.ProxySetting.AvailableTags[i] = global.ProxySetting.ProxyItems[i].Name
+	}
 
 	if err = settings.ReadSection("Server", &global.ServerSetting); err != nil {
 		return err

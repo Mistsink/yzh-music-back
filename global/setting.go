@@ -7,6 +7,7 @@ import (
 
 var (
 	AppSetting    *setting.AppSettingS
+	ProxySetting  *setting.ProxySettingS
 	ServerSetting *setting.ServerSettingS
 	Logger        *logger.Logger
 )

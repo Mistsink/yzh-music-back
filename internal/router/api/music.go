@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/core"
+	"github.com/Mistsink/kuwo-api/internal/proxy"
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/convert"
@@ -20,7 +20,7 @@ func (m *Music) Url(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.MusicUrl(c, param)
+	res, err := proxy.MusicUrl(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -40,7 +40,7 @@ func (m *Music) MV(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.MusicUrl(c, param)
+	res, err := proxy.MusicUrl(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -60,7 +60,7 @@ func (m *Music) Lyric(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.MusicLyric(c, param)
+	res, err := proxy.MusicLyric(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -80,7 +80,7 @@ func (m *Music) Info(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.MusicInfo(c, param)
+	res, err := proxy.MusicInfo(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return

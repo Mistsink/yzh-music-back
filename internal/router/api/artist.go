@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/Mistsink/kuwo-api/internal/core"
+	"github.com/Mistsink/kuwo-api/internal/proxy"
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/Mistsink/kuwo-api/pkg/app"
 	"github.com/Mistsink/kuwo-api/pkg/convert"
@@ -20,7 +20,7 @@ func (a *Artist) Music(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.ArtMusicList(c, param)
+	res, err := proxy.ArtMusicList(param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return
@@ -40,7 +40,7 @@ func (a *Artist) Album(c *gin.Context) {
 	response := app.NewResponse(c)
 	execBindAndValid(c, response, param)
 
-	res, err := core.ArtAlbum(c, param)
+	res, err := proxy.ArtAlbum(c, param)
 	if err != nil {
 		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
 		return

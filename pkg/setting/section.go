@@ -7,11 +7,21 @@ type AppSettingS struct {
 	LogFileName           string
 	LogFileExt            string
 	DefaultContextTimeout time.Duration
-	Cookie                string
-	Host                  string
-	CSRF                  string
-	Referer               string
-	UserAgent             string
+}
+
+type ProxySettingS struct {
+	AvailableTags []string
+	ProxyItems    []ProxySettingItem
+}
+
+type ProxySettingItem struct {
+	Name      string
+	Cookie    string
+	CSRF      string
+	Host      string
+	Referer   string
+	UserAgent string
+	ProxyAddr string
 }
 
 type ServerSettingS struct {
