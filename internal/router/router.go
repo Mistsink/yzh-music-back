@@ -43,9 +43,11 @@ func NewRouter() *gin.Engine {
 		playlist.GET("/", playlistHandler.Default) //	default playlist
 		playlist.GET("/rec", playlistHandler.Recommend)
 		playlist.GET("/:id", playlistHandler.GetDetail)
-		playlist.GET("/tag", playlistHandler.WithTag)     //	get playlist in the tag
-		playlist.GET("/tag/:id", playlistHandler.WithTag) //	get playlist in the tag
-		playlist.GET("/tags", playlistHandler.GetTags)    //	get tags
+		playlist.GET("/tag", playlistHandler.WithTag)       //	get playlist in the tag
+		playlist.GET("/tag/:id", playlistHandler.WithTag)   //	get playlist in the tag
+		playlist.GET("/tags", playlistHandler.GetTags)      //	get tags
+		playlist.GET("/album", playlistHandler.AlbumDetail) //	get album info
+		playlist.GET("/album/:id", playlistHandler.AlbumDetail)
 	}
 
 	search := r.Group("search")

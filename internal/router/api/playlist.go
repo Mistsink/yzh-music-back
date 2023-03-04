@@ -120,3 +120,23 @@ func (p *Playlist) GetDetail(c *gin.Context) {
 	}
 	response.ToResponse(&resJson)
 }
+
+func (p *Playlist) AlbumDetail(c *gin.Context) {
+	param := &service.PLDetailReq{Id: convert.StrTo(c.Param("id")).MustUInt()}
+	response := app.NewResponse(c)
+	execBindAndValid(c, response, param)
+
+	res, err := proxy.PLAlbumDetail(c, param)
+	if err != nil {
+		response.ToErrResponse(errcode.ServerWithMsg(err.Error()))
+		return
+	}
+
+	resJson := app.RespJSON{
+		Code:   transCode(res.Code),
+		Result: res.Result,
+		Msg:    res.Msg,
+		ReqID:  res.ReqID,
+	}
+	response.ToResponse(&resJson)
+}

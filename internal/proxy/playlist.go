@@ -1,20 +1,16 @@
 package proxy
 
-// import (
-// 	"fmt"
-
-// 	"github.com/Mistsink/kuwo-api/internal/proxy/kuwo"
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/Mistsink/kuwo-api/global"
 	kuwo "github.com/Mistsink/kuwo-api/internal/model/kuwo/playlist"
 	netease "github.com/Mistsink/kuwo-api/internal/model/netease/playlist"
 	std "github.com/Mistsink/kuwo-api/internal/model/standard/playlist"
-	"github.com/pkg/errors"
-	"strconv"
-
 	"github.com/Mistsink/kuwo-api/internal/service"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 func PLDefault(c *gin.Context, param *service.PLDefaultReq) (*std.DefaultResp, error) {
@@ -93,7 +89,7 @@ func PLWithTag(c *gin.Context, param *service.PLWithTagReq) (*std.WithTagResp, e
 	switch tag {
 	case Tkuwo:
 		url = "http://www.kuwo.cn/api/www/classify/playlist/getTagPlayList"
-		url = fmt.Sprintf("%s?pn=%d&rn=%d&id=%d",
+		url = fmt.Sprintf("%s?pn=%d&rn=%d&id=%s",
 			url, param.P, param.N, param.Id)
 		raw = &kuwo.WithTagResp{}
 	case Tnetease:
@@ -147,7 +143,44 @@ func PLDetail(c *gin.Context, param *service.PLDetailReq) (*std.DetailResp, erro
 	}, raw, ret)
 	if e != nil {
 		err = errors.Wrap(err, e.Error())
-		return nil, e
+		return nil, err
+	}
+
+	for i := range ret.Result.MusicList {
+		ret.Result.MusicList[i].Tag = string(tag)
+	}
+
+	return ret, err
+}
+
+func PLAlbumDetail(c *gin.Context, param *service.PLDetailReq) (*std.DetailResp, error) {
+	var (
+		err error
+		url string
+		raw any
+		ret = &std.DetailResp{}
+		tag = PlatformTag(param.Tag)
+	)
+
+	switch tag {
+	case Tkuwo:
+		url = "http://www.kuwo.cn/api/www/album/albumInfo"
+		url = fmt.Sprintf("%s?pn=%d&rn=%d&albumId=%d&httpsStatus=1",
+			url, param.P, param.N, param.Id)
+		raw = &kuwo.DetailResp{}
+	case Tnetease: // TODO: 分为两次请求：获取歌单详情 -> 获取歌单所有歌曲
+		// 暂时只获取所有歌曲，会确实很多歌单的信息：user、name、id、img 等
+		url = fmt.Sprintf("/album?id=%d", param.Id)
+		raw = &netease.DetailResp{}
+	}
+
+	e := sendAndFormat(&ProxyReqOpt{
+		tag:    tag,
+		rawUrl: url,
+	}, raw, ret)
+	if e != nil {
+		err = errors.Wrap(err, e.Error())
+		return nil, err
 	}
 
 	for i := range ret.Result.MusicList {
