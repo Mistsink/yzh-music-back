@@ -73,5 +73,5 @@
 
 ## 感谢
 
-- [TS写的api接口](https://github.com/QiuYaohong/kuwoMusicApi.git)。
+- [TS写的api接口](https://github.com/QiuYaohong/kuwoMusicApi.git)
 - [非常出名的 NodeJs 版网易云接口代理](https://github.com/Binaryify/NeteaseCloudMusicApi)
